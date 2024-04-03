@@ -1,1 +1,5 @@
-﻿
+﻿  LinkedList.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\LinkedList.cpp(81): warning C4715: “LinkedList::SearchByName”: 不是所有的控件路径都返回值
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\LinkedList.cpp(67): warning C4715: “LinkedList::SearchById”: 不是所有的控件路径都返回值
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\LinkedList.cpp(94): warning C4715: “LinkedList::GetInformation”: 不是所有的控件路径都返回值
+  DataStructureServer.vcxproj -> C:\Users\86136\Desktop\DataStructureServer\x64\Debug\DataStructureServer.exe
