@@ -21,8 +21,8 @@ private:
     int num; // 点的数量
     AdjList* array; // 邻接表数组，图的存储。
 public:
-    Graph() {};// 构造函数，用于在main函数中初始化一个图
-    ~Graph() {};// 析构函数，用于释放内存
+    Graph();// 构造函数，用于在main函数中初始化一个图
+    ~Graph();// 析构函数，用于释放内存
     void AddEdge(Point& start, Point& end, double distance = -1);
     void DeleteEdge(Point& start, Point& end);
     void AddPoint(const Point& a);
