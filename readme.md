@@ -6,7 +6,9 @@
 
 说明：
 
-- 需要配置的库：httplib.h在/DataStructureServer中，手动添加一下路径即可。教程：https://blog.csdn.net/HandsomeHong/article/details/114157201
+- 需要配置的库：
+  - httplib.h在/DataStructureServer中，手动添加一下路径即可。教程：https://blog.csdn.net/HandsomeHong/article/details/114157201
+  - json解析：附加包含库.DataStructureServer\include\single_include
 - 在这个实现中
   - Place其实是Point的子集。个人感觉更好的设计应该是Place为Point的子类，但这样太过复杂，用到的C++知识太多了，且必要性也没有那么大。鉴于这是数据结构的大作业，就先用一种简单粗暴的方法实现
     - 如果能力足够想写继承那种方式，肯定是更好（）有人想写记得群里说一下

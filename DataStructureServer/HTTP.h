@@ -1,8 +1,18 @@
 #pragma once
 #include <iostream>
-#include "httplib.h" // cpp-httplib¿â
 #include <thread>
+#include <nlohmann/json.hpp>
+#include <mutex>
+#include <future>
+#include <vector>
+#include "httplib.h" // cpp-httplibåº“
+#include "List.h"
+#include "Graph.h"
 
+using json = nlohmann::json;
 using namespace httplib;
 
-void handleRequest(const httplib::Request& req, httplib::Response& res);
+extern List list;
+extern Graph graph;
+
+void handleRequest(const httplib::Request&, std::promise<json>);

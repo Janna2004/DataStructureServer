@@ -3,13 +3,14 @@
 #include <cstdlib>
 #include <vector>
 #include <stack>
-#include <utility> // ¶ÔÓÚstd::pair
-#include <limits>  // ¶ÔÓÚstd::numeric_limits
-#include <algorithm> // ÓÃÓÚstd::sort
-#include <cmath>     // ÓÃÓÚstd::sqrtºÍstd::pow
+#include <utility> // å¯¹äºstd::pair
+#include <limits>  // å¯¹äºstd::numeric_limits
+#include <algorithm> // ç”¨äºstd::sort
+#include <cmath>     // ç”¨äºstd::sqrtå’Œstd::pow
+
 
 Graph::Graph() : num(0), array(nullptr) {
-    // ÓÉÓÚ³õÊ¼Ê±Í¼ÖĞÃ»ÓĞµã£¬numÉèÖÃÎª0£¬arrayÉèÖÃÎªnullptr
+    // ç”±äºåˆå§‹æ—¶å›¾ä¸­æ²¡æœ‰ç‚¹ï¼Œnumè®¾ç½®ä¸º0ï¼Œarrayè®¾ç½®ä¸ºnullptr
 }
 
 Graph::~Graph() {
@@ -19,18 +20,17 @@ Graph::~Graph() {
             while (current != nullptr) {
                 Edge* temp = current;
                 current = current->next;
-                delete temp; // É¾³ıµ±Ç°±ß
+                delete temp; // åˆ é™¤å½“å‰è¾¹
             }
         }
-        delete[] array; // É¾³ıÕû¸öÁÚ½Ó±íÊı×é
+        delete[] array; // åˆ é™¤æ•´ä¸ªé‚»æ¥è¡¨æ•°ç»„
     }
 }
 
 
 void Graph::AddEdge(Point& start, Point& end, double distance) {
-
     if (start.id < 0 || start.id >= num || end.id < 0 || end.id >= num) {
-        std::cerr << "Æğµã»òÖÕµã²»´æÔÚÓÚÍ¼ÖĞ¡£" << std::endl;
+        std::cerr << "èµ·ç‚¹æˆ–ç»ˆç‚¹ä¸å­˜åœ¨äºå›¾ä¸­ã€‚ " << std::endl;
         return;
     }
 
@@ -40,7 +40,7 @@ void Graph::AddEdge(Point& start, Point& end, double distance) {
 
 void Graph::DeleteEdge(Point& start, Point& end) {
     if (start.id < 0 || start.id >= num || end.id < 0 || end.id >= num) {
-        std::cerr << "Æğµã»òÖÕµã²»´æÔÚÓÚÍ¼ÖĞ¡£" << std::endl;
+        std::cerr << "èµ·ç‚¹æˆ–ç»ˆç‚¹ä¸å­˜åœ¨äºå›¾ä¸­ã€‚ " << std::endl;
         return;
     }
 
@@ -55,7 +55,7 @@ void Graph::DeleteEdge(Point& start, Point& end) {
         edgePtr = &currentEdge->next;
     }
 
-    std::cerr << "Ã»ÓĞÕÒµ½´ÓÆğµãµ½ÖÕµãµÄ±ß¡£" << std::endl;
+    std::cerr << "æ²¡æœ‰æ‰¾åˆ°ä»èµ·ç‚¹åˆ°ç»ˆç‚¹çš„è¾¹ã€‚ " << std::endl;
 }
 
 void Graph::AddPoint(const Point& a) {
@@ -79,17 +79,17 @@ void Graph::AddPoint(const Point& a) {
         array[a.id].head = nullptr;
     }
     else {
-        std::cerr << "µã " << a.id << " ÒÑ¾­´æÔÚÓÚÍ¼ÖĞ¡£" << std::endl;
+        std::cerr << "ç‚¹ " << a.id << " å·²ç»å­˜åœ¨äºå›¾ä¸­ã€‚ " << std::endl;
     }
 }
 
 void Graph::DeletePoint(const Point& a) {
     if (a.id < 0 || a.id >= num || array[a.id].point == nullptr) {
-        std::cerr << "µã²»´æÔÚÓÚÍ¼ÖĞ¡£" << std::endl;
+        std::cerr << "ç‚¹ä¸å­˜åœ¨äºå›¾ä¸­ã€‚ " << std::endl;
         return;
     }
 
-    // É¾³ıËùÓĞ³ö±ß
+    // åˆ é™¤æ‰€æœ‰å‡ºè¾¹
     Edge* current = array[a.id].head;
     while (current != nullptr) {
         Edge* temp = current;
@@ -98,7 +98,7 @@ void Graph::DeletePoint(const Point& a) {
     }
     array[a.id].head = nullptr;
 
-    // É¾³ıËùÓĞÈë±ß
+    // åˆ é™¤æ‰€æœ‰å…¥è¾¹
     for (int i = 0; i < num; ++i) {
         Edge** edgePtr = &array[i].head;
         while (*edgePtr != nullptr) {
@@ -120,7 +120,7 @@ void Graph::DeletePoint(const Point& a) {
 
 Point* Graph::SearchById(int id) {
     if (id < 0 || id >= num) {
-        std::cerr << "Ìá¹©µÄID³¬³öÍ¼µÄ·¶Î§¡£" << std::endl;
+        std::cerr << "æä¾›çš„IDè¶…å‡ºå›¾çš„èŒƒå›´ã€‚ " << std::endl;
         return nullptr;
     }
 
@@ -129,28 +129,28 @@ Point* Graph::SearchById(int id) {
 
 
 std::pair<int, std::vector<Point>> Graph::Navigation(const Point& start, const Point& end) {
-    std::vector<int> dist(num, std::numeric_limits<int>::max());  // ´æ´¢Æğµãµ½Ã¿¸öµãµÄ×î¶Ì¾àÀë
-    std::vector<int> prev(num, -1);  // ´æ´¢µ½´ïÃ¿¸öµãµÄ×î¶ÌÂ·¾¶ÉÏ¸ÃµãµÄÇ°Ò»¸öµã
-    std::vector<bool> visited(num, false);  // ±ê¼ÇÃ¿¸öµãÊÇ·ñÒÑ¾­ÕÒµ½ÁË×î¶ÌÂ·¾¶
+    std::vector<int> dist(num, std::numeric_limits<int>::max());  // å­˜å‚¨èµ·ç‚¹åˆ°æ¯ä¸ªç‚¹çš„æœ€çŸ­è·ç¦»
+    std::vector<int> prev(num, -1);  // å­˜å‚¨åˆ°è¾¾æ¯ä¸ªç‚¹çš„æœ€çŸ­è·¯å¾„ä¸Šè¯¥ç‚¹çš„å‰ä¸€ä¸ªç‚¹
+    std::vector<bool> visited(num, false);  // æ ‡è®°æ¯ä¸ªç‚¹æ˜¯å¦å·²ç»æ‰¾åˆ°äº†æœ€çŸ­è·¯å¾„
 
-    // Ê¹ÓÃÓÅÏÈ¶ÓÁĞÓÅ»¯Ñ¡Ôñ¹ı³Ì
+    // ä½¿ç”¨ä¼˜å…ˆé˜Ÿåˆ—ä¼˜åŒ–é€‰æ‹©è¿‡ç¨‹
     auto cmp = [&dist](int left, int right) { return dist[left] > dist[right]; };
     std::priority_queue<int, std::vector<int>, decltype(cmp)> pq(cmp);
 
-    dist[start.id] = 0;  // Æğµãµ½×Ô¼ºµÄ×î¶Ì¾àÀëÎª0
+    dist[start.id] = 0;  // èµ·ç‚¹åˆ°è‡ªå·±çš„æœ€çŸ­è·ç¦»ä¸º0
     pq.push(start.id);
 
     while (!pq.empty()) {
-        int u = pq.top();  // Ñ¡ÔñÒ»¸öÎ´´¦ÀíµÄ¾àÀë×îĞ¡µÄ¶¥µã
+        int u = pq.top();  // é€‰æ‹©ä¸€ä¸ªæœªå¤„ç†çš„è·ç¦»æœ€å°çš„é¡¶ç‚¹
         pq.pop();
 
-        if (visited[u]) continue;  // Èç¹ûÕâ¸ö¶¥µãÒÑ¾­´¦Àí¹ı£¬ÔòÌø¹ı
+        if (visited[u]) continue;  // å¦‚æœè¿™ä¸ªé¡¶ç‚¹å·²ç»å¤„ç†è¿‡ï¼Œåˆ™è·³è¿‡
         visited[u] = true;
 
         for (Edge* e = array[u].head; e != nullptr; e = e->next) {
             int v = e->point->id;
-            int alt = dist[u] + static_cast<int>(e->distance);  // ¼ÆËãĞÂµÄ¾àÀë
-            if (alt < dist[v]) {  // Èç¹ûÕÒµ½ÁË¸ü¶ÌµÄÂ·¾¶£¬Ôò¸üĞÂ
+            int alt = dist[u] + static_cast<int>(e->distance);  // è®¡ç®—æ–°çš„è·ç¦»
+            if (alt < dist[v]) {  // å¦‚æœæ‰¾åˆ°äº†æ›´çŸ­çš„è·¯å¾„ï¼Œåˆ™æ›´æ–°
                 dist[v] = alt;
                 prev[v] = u;
                 pq.push(v);
@@ -158,63 +158,139 @@ std::pair<int, std::vector<Point>> Graph::Navigation(const Point& start, const P
         }
     }
 
-    // ÖØ½¨Â·¾¶
+    // é‡å»ºè·¯å¾„
     std::vector<Point> path;
     for (int at = end.id; at != -1; at = prev[at]) {
         path.push_back(*array[at].point);
     }
-    std::reverse(path.begin(), path.end());  // ·­×ªÂ·¾¶£¬ÒòÎªÎÒÃÇÊÇ´ÓÖÕµãÏòÆğµã»ØËİµÄ
+    std::reverse(path.begin(), path.end());  // ç¿»è½¬è·¯å¾„ï¼Œå› ä¸ºæˆ‘ä»¬æ˜¯ä»ç»ˆç‚¹å‘èµ·ç‚¹å›æº¯çš„
 
-    if (path.size() == 1 && path[0].id != start.id) {  // Èç¹ûÖ»ÓĞÒ»¸öµãÇÒ¸Ãµã²»ÊÇÆğµã£¬ÔòÃ»ÓĞÂ·¾¶
+    if (path.size() == 1 && path[0].id != start.id) {  // å¦‚æœåªæœ‰ä¸€ä¸ªç‚¹ä¸”è¯¥ç‚¹ä¸æ˜¯èµ·ç‚¹ï¼Œåˆ™æ²¡æœ‰è·¯å¾„
         return { 0, {} };
     }
 
     return { dist[end.id], path };
 }
 
-std::vector<Point> Graph::SearchByRange(const Point& center, int range) {
-    std::vector<Point> pointsWithinRange; // ´æ´¢ÔÚ·¶Î§ÄÚµÄµã
-    std::vector<bool> visited(num, false); // ±ê¼ÇÒÑ·ÃÎÊµÄµã
-    std::queue<std::pair<int, int>> q; // ´æ´¢µãµÄIDºÍ´ÓÖĞĞÄµãµ½¸ÃµãµÄ¾àÀë
+std::vector<Point> Graph::SearchByRangePoint(const Point& center, int range) {
+    std::vector<Point> pointsWithinRange; // å­˜å‚¨åœ¨èŒƒå›´å†…çš„ç‚¹
+    std::vector<bool> visited(num, false); // æ ‡è®°å·²è®¿é—®çš„ç‚¹
+    std::queue<std::pair<int, int>> q; // å­˜å‚¨ç‚¹çš„IDå’Œä»ä¸­å¿ƒç‚¹åˆ°è¯¥ç‚¹çš„è·ç¦»
 
-    visited[center.id] = true; // ±ê¼ÇÖĞĞÄµãÎªÒÑ·ÃÎÊ
-    q.push(std::make_pair(center.id, 0)); // ´ÓÖĞĞÄµã¿ªÊ¼£¬¾àÀëÎª0
+    visited[center.id] = true; // æ ‡è®°ä¸­å¿ƒç‚¹ä¸ºå·²è®¿é—®
+    q.push(std::make_pair(center.id, 0)); // ä»ä¸­å¿ƒç‚¹å¼€å§‹ï¼Œè·ç¦»ä¸º0
 
     while (!q.empty()) {
-        int currentId = q.front().first; // µ±Ç°µãµÄID
-        int dist = q.front().second; // ´ÓÖĞĞÄµãµ½µ±Ç°µãµÄ¾àÀë
+        int currentId = q.front().first; // å½“å‰ç‚¹çš„ID
+        int dist = q.front().second; // ä»ä¸­å¿ƒç‚¹åˆ°å½“å‰ç‚¹çš„è·ç¦»
         q.pop();
 
-        // Èç¹ûµ±Ç°µãÊÇ¾°µãÇÒÔÚÖ¸¶¨·¶Î§ÄÚ£¬Ìí¼Óµ½½á¹ûÁĞ±í
+        // å¦‚æœå½“å‰ç‚¹æ˜¯æ™¯ç‚¹ä¸”åœ¨æŒ‡å®šèŒƒå›´å†…ï¼Œæ·»åŠ åˆ°ç»“æœåˆ—è¡¨
         if (array[currentId].point->placeId != -1 && dist <= range) {
             pointsWithinRange.push_back(*array[currentId].point);
         }
 
-        // ±éÀúµ±Ç°µãµÄËùÓĞÁÚ½Óµã
+        // éå†å½“å‰ç‚¹çš„æ‰€æœ‰é‚»æ¥ç‚¹
         for (Edge* e = array[currentId].head; e != nullptr; e = e->next) {
             int nextId = e->point->id;
-            int nextDist = dist + static_cast<int>(e->distance); // ÀÛ¼Ó¾àÀë
+            int nextDist = dist + static_cast<int>(e->distance); // ç´¯åŠ è·ç¦»
 
             if (!visited[nextId] && nextDist <= range) {
-                visited[nextId] = true; // ±ê¼ÇÎªÒÑ·ÃÎÊ
-                q.push(std::make_pair(nextId, nextDist)); // ½«ÁÚ½Óµã¼°Æä¾àÀëÈë¶Ó
+                visited[nextId] = true; // æ ‡è®°ä¸ºå·²è®¿é—®
+                q.push(std::make_pair(nextId, nextDist)); // å°†é‚»æ¥ç‚¹åŠå…¶è·ç¦»å…¥é˜Ÿ
             }
         }
     }
+    return pointsWithinRange;
+}
+
+std::vector<Point> Graph::SearchByRangeAny(double x,double y, int range) {
+    std::vector<Point> pointsWithinRange; // å­˜å‚¨åœ¨èŒƒå›´å†…çš„ç‚¹
+
 
     return pointsWithinRange;
 }
 
 void Graph::SortByDistance(std::vector<Point>& points) {
-    Point referencePoint(0, 0, 0); // ¼ÙÉè²Î¿¼µãÊÇ(0,0)
+    Point referencePoint(0, 0, 0); // å‡è®¾å‚è€ƒç‚¹æ˜¯(0,0)
     std::sort(points.begin(), points.end(), [&referencePoint](const Point& a, const Point& b) {
         return std::hypot(a.x - referencePoint.x, a.y - referencePoint.y) <
             std::hypot(b.x - referencePoint.x, b.y - referencePoint.y);
         });
 }
 
+std::pair<int, std::vector<Point>> Graph::TSP(const Point& start){
+    // é¦–å…ˆï¼Œåˆ›å»ºä¸€ä¸ªåªåŒ…å«æ™¯ç‚¹çš„åˆ—è¡¨
+    std::vector<int> places;
+    int placeNum = 0;
+    for (int i = 0; i < this->GetNum(); i++) {
+        Point* p = this->SearchById(i);
+        if (p && p->placeId != -1) {
+            places.push_back(i);
+            placeNum++;
+        }
+    }
+    // åˆå§‹åŒ–åŠ¨æ€è§„åˆ’è¡¨
+    const int inf = std::numeric_limits<int>::max();
+    std::vector<std::vector<int>> dp(1 << placeNum, std::vector<int>(placeNum, inf));
+    std::vector<std::vector<int>> parent(1 << placeNum, std::vector<int>(placeNum, -1));
+    int startIdx = std::find(places.begin(), places.end(), start.id) - places.begin();
+
+    // åˆå§‹çŠ¶æ€
+    dp[1 << startIdx][startIdx] = 0;
+
+    // å¡«å……è¡¨
+    int distance = 0;
+    for (int mask = 0; mask < (1 << placeNum); mask++) {
+        for (int i = 0; i < placeNum; i++) {
+            if (mask & (1 << i)) {
+                for (int j = 0; j < placeNum; j++) {
+                    if (!(mask & (1 << j))) {
+                        int nextMask = mask | (1 << j);
+                        distance = Navigation(*SearchById(places[i]), *SearchById(places[j])).first;
+                        int cost = dp[mask][i] + distance;
+                        if (cost < dp[nextMask][j]) {
+                            dp[nextMask][j] = cost;
+                            parent[nextMask][j] = i;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // å¯»æ‰¾æœ€å°çš„å›è·¯
+    int finalMask = (1 << placeNum) - 1;
+    int minCost = inf, lastIndex = -1;
+    for (int i = 0; i < placeNum; i++) {
+        distance = Navigation(*SearchById(places[i]), start).first;
+        int cost = dp[finalMask][i] + distance;
+        if (cost < minCost) {
+            minCost = cost;
+            lastIndex = i;
+        }
+    }
+
+    // æ„å»ºè·¯å¾„
+    std::vector<Point> path;
+    for (int mask = finalMask, index = lastIndex; index != -1; ) {
+        path.push_back(*SearchById(places[index]));
+        int pIndex = parent[mask][index];
+        mask &= ~(1 << index);
+        index = pIndex;
+    }
+    std::reverse(path.begin(), path.end());
+
+    std::cout << "Path reconstruction:" << std::endl;
+    for (const auto& p : path) {
+        std::cout << "ID: " << p.id << " Coords: (" << p.x << ", " << p.y << ")" << std::endl;
+    }
+
+    return { minCost, path };
+}
+
 //void Graph::SortByDistance(std::vector<Point>& points) {
-//    // ¼ÆËãËùÓĞµãµÄÆ½¾ù×ø±ê£¬ÓÃ×÷²Î¿¼µã
+//    // è®¡ç®—æ‰€æœ‰ç‚¹çš„å¹³å‡åæ ‡ï¼Œç”¨ä½œå‚è€ƒç‚¹
 //    double sumX = 0, sumY = 0;
 //    int count = 0;
 //    for (const auto& pt : points) {
@@ -222,38 +298,38 @@ void Graph::SortByDistance(std::vector<Point>& points) {
 //        sumY += pt.y;
 //        count++;
 //    }
-//    Point referencePoint = Point(-1, sumX / count, sumY / count); // ´´½¨¼¸ºÎÖĞĞÄ²Î¿¼µã
+//    Point referencePoint = Point(-1, sumX / count, sumY / count); // åˆ›å»ºå‡ ä½•ä¸­å¿ƒå‚è€ƒç‚¹
 //
-//    // ¶¨Òå±È½Ïº¯Êı£¬ÓÃÓÚ±È½ÏÁ½¸öµãÓë²Î¿¼µãµÄ¾àÀë
+//    // å®šä¹‰æ¯”è¾ƒå‡½æ•°ï¼Œç”¨äºæ¯”è¾ƒä¸¤ä¸ªç‚¹ä¸å‚è€ƒç‚¹çš„è·ç¦»
 //    auto compareByDistance = [&referencePoint](const Point& a, const Point& b) -> bool {
 //        double distA = std::sqrt(std::pow(a.x - referencePoint.x, 2) + std::pow(a.y - referencePoint.y, 2));
 //        double distB = std::sqrt(std::pow(b.x - referencePoint.x, 2) + std::pow(b.y - referencePoint.y, 2));
-//        return distA < distB; // °´¾àÀëÉıĞòÅÅĞò
+//        return distA < distB; // æŒ‰è·ç¦»å‡åºæ’åº
 //    };
 //
-//    // Ê¹ÓÃstd::sortºÍ±È½Ïº¯Êı¶Ôpoints½øĞĞÅÅĞò
+//    // ä½¿ç”¨std::sortå’Œæ¯”è¾ƒå‡½æ•°å¯¹pointsè¿›è¡Œæ’åº
 //    std::sort(points.begin(), points.end(), compareByDistance);
 //}
 
 std::vector<Point> Graph::GetInformationByDeepth() {
-    std::vector<Point> result; // ÓÃÓÚ´æ´¢±éÀú½á¹û
-    std::vector<bool> visited(num, false); // ¼ÇÂ¼Ã¿¸öµãÊÇ·ñÒÑ·ÃÎÊ
-    std::stack<int> stack; // Ê¹ÓÃÕ»À´Ä£Äâµİ¹éµÄDFS¹ı³Ì
+    std::vector<Point> result; // ç”¨äºå­˜å‚¨éå†ç»“æœ
+    std::vector<bool> visited(num, false); // è®°å½•æ¯ä¸ªç‚¹æ˜¯å¦å·²è®¿é—®
+    std::stack<int> stack; // ä½¿ç”¨æ ˆæ¥æ¨¡æ‹Ÿé€’å½’çš„DFSè¿‡ç¨‹
 
-    // ±éÀúËùÓĞµãÒÔÈ·±£ÄÜ·ÃÎÊµ½ËùÓĞÁ¬Í¨·ÖÁ¿
+    // éå†æ‰€æœ‰ç‚¹ä»¥ç¡®ä¿èƒ½è®¿é—®åˆ°æ‰€æœ‰è¿é€šåˆ†é‡
     for (int start = 0; start < num; ++start) {
         if (!visited[start] && array[start].point != nullptr) {
-            stack.push(start); // ½«Î´·ÃÎÊµÄÆğÊ¼µãÑ¹ÈëÕ»
+            stack.push(start); // å°†æœªè®¿é—®çš„èµ·å§‹ç‚¹å‹å…¥æ ˆ
 
             while (!stack.empty()) {
-                int current = stack.top(); // ·ÃÎÊÕ»¶¥ÔªËØ
+                int current = stack.top(); // è®¿é—®æ ˆé¡¶å…ƒç´ 
                 stack.pop();
 
                 if (!visited[current]) {
-                    visited[current] = true; // ±ê¼Çµ±Ç°µãÎªÒÑ·ÃÎÊ
-                    result.push_back(*array[current].point); // ÊÕ¼¯µ±Ç°µãµÄĞÅÏ¢
+                    visited[current] = true; // æ ‡è®°å½“å‰ç‚¹ä¸ºå·²è®¿é—®
+                    result.push_back(*array[current].point); // æ”¶é›†å½“å‰ç‚¹çš„ä¿¡æ¯
 
-                    // ½«ËùÓĞÎ´·ÃÎÊµÄÁÚ½ÓµãÑ¹ÈëÕ»ÖĞ
+                    // å°†æ‰€æœ‰æœªè®¿é—®çš„é‚»æ¥ç‚¹å‹å…¥æ ˆä¸­
                     Edge* e = array[current].head;
                     while (e != nullptr) {
                         if (!visited[e->point->id]) {
@@ -266,28 +342,28 @@ std::vector<Point> Graph::GetInformationByDeepth() {
         }
     }
 
-    return result; // ·µ»Ø°üº¬ËùÓĞµãĞÅÏ¢µÄÏòÁ¿
+    return result; // è¿”å›åŒ…å«æ‰€æœ‰ç‚¹ä¿¡æ¯çš„å‘é‡
 }
 
 std::vector<Point> Graph::GetInformationByWidth() {
-    std::vector<Point> result; // ÓÃÓÚ´æ´¢±éÀú½á¹û
-    std::vector<bool> visited(num, false); // ¼ÇÂ¼Ã¿¸öµãÊÇ·ñÒÑ·ÃÎÊ
-    std::queue<int> queue; // Ê¹ÓÃ¶ÓÁĞ½øĞĞ¹ã¶ÈÓÅÏÈ±éÀú
+    std::vector<Point> result; // ç”¨äºå­˜å‚¨éå†ç»“æœ
+    std::vector<bool> visited(num, false); // è®°å½•æ¯ä¸ªç‚¹æ˜¯å¦å·²è®¿é—®
+    std::queue<int> queue; // ä½¿ç”¨é˜Ÿåˆ—è¿›è¡Œå¹¿åº¦ä¼˜å…ˆéå†
 
-    // ±éÀúËùÓĞµãÒÔÈ·±£ÄÜ·ÃÎÊµ½ËùÓĞÁ¬Í¨·ÖÁ¿
+    // éå†æ‰€æœ‰ç‚¹ä»¥ç¡®ä¿èƒ½è®¿é—®åˆ°æ‰€æœ‰è¿é€šåˆ†é‡
     for (int start = 0; start < num; ++start) {
         if (!visited[start] && array[start].point != nullptr) {
-            queue.push(start); // ½«Î´·ÃÎÊµÄÆğÊ¼µã¼ÓÈë¶ÓÁĞ
+            queue.push(start); // å°†æœªè®¿é—®çš„èµ·å§‹ç‚¹åŠ å…¥é˜Ÿåˆ—
 
             while (!queue.empty()) {
-                int current = queue.front(); // ·ÃÎÊ¶ÓÁĞµÄÇ°¶ËÔªËØ
+                int current = queue.front(); // è®¿é—®é˜Ÿåˆ—çš„å‰ç«¯å…ƒç´ 
                 queue.pop();
 
                 if (!visited[current]) {
-                    visited[current] = true; // ±ê¼Çµ±Ç°µãÎªÒÑ·ÃÎÊ
-                    result.push_back(*array[current].point); // ÊÕ¼¯µ±Ç°µãµÄĞÅÏ¢
+                    visited[current] = true; // æ ‡è®°å½“å‰ç‚¹ä¸ºå·²è®¿é—®
+                    result.push_back(*array[current].point); // æ”¶é›†å½“å‰ç‚¹çš„ä¿¡æ¯
 
-                    // ½«ËùÓĞÎ´·ÃÎÊµÄÁÚ½Óµã¼ÓÈë¶ÓÁĞ
+                    // å°†æ‰€æœ‰æœªè®¿é—®çš„é‚»æ¥ç‚¹åŠ å…¥é˜Ÿåˆ—
                     for (Edge* e = array[current].head; e != nullptr; e = e->next) {
                         if (!visited[e->point->id]) {
                             queue.push(e->point->id);
@@ -298,5 +374,5 @@ std::vector<Point> Graph::GetInformationByWidth() {
         }
     }
 
-    return result; // ·µ»Ø°üº¬ËùÓĞµãĞÅÏ¢µÄÏòÁ¿
+    return result; // è¿”å›åŒ…å«æ‰€æœ‰ç‚¹ä¿¡æ¯çš„å‘é‡
 }

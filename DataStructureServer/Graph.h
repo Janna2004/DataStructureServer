@@ -14,27 +14,29 @@ struct Edge {
 };
 struct AdjList {
     Point* point;
-    Edge* head; // Ö¸ÏòµÚÒ»¸öEdgeµÄÖ¸Õë
+    Edge* head; // æŒ‡å‘ç¬¬ä¸€ä¸ªEdgeçš„æŒ‡é’ˆ
 };
 class Graph {
 private:
-    int num; // µãµÄÊıÁ¿
-    AdjList* array; // ÁÚ½Ó±íÊı×é£¬Í¼µÄ´æ´¢¡£
+    int num; // ç‚¹çš„æ•°é‡
+    AdjList* array; // é‚»æ¥è¡¨æ•°ç»„ï¼Œå›¾çš„å­˜å‚¨ã€‚
 public:
-    Graph();// ¹¹Ôìº¯Êı£¬ÓÃÓÚÔÚmainº¯ÊıÖĞ³õÊ¼»¯Ò»¸öÍ¼
-    ~Graph();// Îö¹¹º¯Êı£¬ÓÃÓÚÊÍ·ÅÄÚ´æ
+    Graph();// æ„é€ å‡½æ•°
+    ~Graph();// ææ„å‡½æ•°ï¼Œç”¨äºé‡Šæ”¾å†…å­˜
     void AddEdge(Point& start, Point& end, double distance = -1);
     void DeleteEdge(Point& start, Point& end);
     void AddPoint(const Point& a);
     void DeletePoint(const Point& a);
-    Point* SearchById(int id);// ¸ù¾İIDËÑË÷µØµã¡£¿ÉÒÔÓÃÒ»¸ö¿ìËÙµÄËÑË÷°ì·¨,·µ»ØÖ¸Ïò¸Ã¶ÔÏóµÄÖ¸Õë¡£
+    Point* SearchById(int id);// æ ¹æ®IDæœç´¢åœ°ç‚¹,è¿”å›æŒ‡å‘è¯¥å¯¹è±¡çš„æŒ‡é’ˆã€‚
 
-    std::pair<int, std::vector<Point>> Navigation(const Point& start, const Point& end);// µ¼º½£º×î¶ÌÂ·¾¶Ëã·¨¡£pairµÄµÚÒ»¸öÊÇ×î¶Ì¾àÀë£¬µÚ¶ş¸öÊÇÂ·¾¶ÉÏËùÓĞµÄµãµÄ¶ÔÏó£¨°´×ß¹ıµÄË³Ğò£©
-    std::vector<Point> SearchByRange(const Point& center, int range);// °´ËÑË÷ËùÓĞÒÔcenterÎªÖĞĞÄ£¬×ßÂ·¾àÀëÔÚrange·¶Î§ÄÚµÄ¾°µã£¨²»ÅÅĞò£©£¨Ê¹ÓÃplaceÅĞ¶ÏÊÇ·ñÊÇ¾°µã£©
-    void SortByDistance(std::vector<Point>& reference);// ÅÅĞòËã·¨£º¾°µã°´¾àÀëÅÅĞò¡£ÒòÎª´«ÈëµÄÊÇÒıÓÃ£¬ËùÒÔ²»ĞèÒª¶îÍâ·µ»Ø
+    std::pair<int, std::vector<Point>> Navigation(const Point& start, const Point& end);// å¯¼èˆªï¼šDijkstraç®—æ³•ã€‚pairçš„ç¬¬ä¸€ä¸ªæ˜¯æœ€çŸ­è·ç¦»ï¼Œç¬¬äºŒä¸ªæ˜¯è·¯å¾„ä¸Šæ‰€æœ‰çš„ç‚¹çš„å¯¹è±¡ï¼ˆæŒ‰èµ°è¿‡çš„é¡ºåºï¼‰
+    std::vector<Point> SearchByRangePoint(const Point& center, int range);// æŒ‰æœç´¢æ‰€æœ‰ä»¥centerä¸ºä¸­å¿ƒï¼Œèµ°è·¯è·ç¦»åœ¨rangeèŒƒå›´å†…çš„æ™¯ç‚¹ï¼ˆä¸æ’åºï¼‰ï¼ˆä½¿ç”¨placeåˆ¤æ–­æ˜¯å¦æ˜¯æ™¯ç‚¹ï¼‰
+    std::vector<Point> SearchByRangeAny(double x,double y, int range);// æŒ‰æœç´¢æ‰€æœ‰ä»¥centerä¸ºä¸­å¿ƒï¼Œèµ°è·¯è·ç¦»åœ¨rangeèŒƒå›´å†…çš„æ™¯ç‚¹ï¼ˆä¸æ’åºï¼‰ï¼ˆä½¿ç”¨placeåˆ¤æ–­æ˜¯å¦æ˜¯æ™¯ç‚¹ï¼‰
+    void SortByDistance(std::vector<Point>& reference);// æ’åºç®—æ³•ï¼šæ™¯ç‚¹æŒ‰è·ç¦»æ’åºã€‚å› ä¸ºä¼ å…¥çš„æ˜¯å¼•ç”¨ï¼Œæ‰€ä»¥ä¸éœ€è¦é¢å¤–è¿”å›
+    std::pair<int, std::vector<Point>> TSP(const Point& start); // æ—…è¡Œå•†é—®é¢˜ï¼šä»startå‡ºå‘ï¼Œç»è¿‡æ‰€æœ‰æ™¯ç‚¹ï¼Œå†å›åˆ°startçš„æœ€çŸ­è·¯å¾„.pairçš„ç¬¬ä¸€ä¸ªæ˜¯æœ€çŸ­è·ç¦»ï¼Œç¬¬äºŒä¸ªæ˜¯è·¯å¾„ä¸Šæ‰€æœ‰çš„ç‚¹çš„å¯¹è±¡ï¼ˆæŒ‰èµ°è¿‡çš„é¡ºåºï¼‰
 
-    int GetNum() const { return num; }// »ñÈ¡µãµÄÊıÁ¿
-    std::vector<Point> GetInformationByDeepth();// »ñÈ¡ËùÓĞµãµÄĞÅÏ¢,Éî¶ÈÓÅÏÈ±éÀú
-    std::vector<Point> GetInformationByWidth();// »ñÈ¡ËùÓĞµãµÄĞÅÏ¢,¹ã¶ÈÓÅÏÈ±éÀú
+    int GetNum() const { return num; }// è·å–ç‚¹çš„æ•°é‡
+    std::vector<Point> GetInformationByDeepth();// è·å–æ‰€æœ‰ç‚¹çš„ä¿¡æ¯,æ·±åº¦ä¼˜å…ˆéå†
+    std::vector<Point> GetInformationByWidth();// è·å–æ‰€æœ‰ç‚¹çš„ä¿¡æ¯,å¹¿åº¦ä¼˜å…ˆéå†
 };
 

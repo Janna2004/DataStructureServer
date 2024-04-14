@@ -1,5 +1,10 @@
-﻿  LinkedList.cpp
-C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\LinkedList.cpp(81): warning C4715: “LinkedList::SearchByName”: 不是所有的控件路径都返回值
-C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\LinkedList.cpp(67): warning C4715: “LinkedList::SearchById”: 不是所有的控件路径都返回值
-C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\LinkedList.cpp(94): warning C4715: “LinkedList::GetInformation”: 不是所有的控件路径都返回值
+﻿  Graph.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“Graph.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(235,40): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(236,44): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(237,18): warning C4244: “初始化”: 从“__int64”转换到“int”，可能丢失数据
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(240,10): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
   DataStructureServer.vcxproj -> C:\Users\86136\Desktop\DataStructureServer\x64\Debug\DataStructureServer.exe

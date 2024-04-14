@@ -1,23 +1,30 @@
 #pragma once
 #include "Place.h"
-#include "LinkedList.h"
 #include <algorithm>
 #include <iostream>
 
+struct Node {
+	Place place;
+	Node* next;
 
-
+	// æ„é€ å‡½æ•°
+	Node(Place place) :place(place), next(nullptr) {}
+	Node() {}
+};
 
 class List {
 private:
-	int num;// ¾°µãÊıÁ¿
-	LinkedList places;//ÏßĞÔ±í´æ´¢£¬ÕâÀïÊÇÒ»¸öÊ¾Àı£¬ĞèÒªÊÖ´êÒ»¸öÊı¾İ½á¹¹
+	int num;// æ™¯ç‚¹æ•°é‡
+	Node* head; // é“¾è¡¨å¤´æŒ‡é’ˆ
+	Node* tail;
 public:
-	List();// ¹¹Ôìº¯Êı£¬ÓÃÓÚÔÚmainº¯ÊıÖĞ³õÊ¼»¯Ò»¸öÏßĞÔ±í
-	void AddPlace(const Place& place);// Ìí¼ÓÒ»¸öĞÂµÄµØµã
-	void DeletePlace(int id);// É¾³ıÒ»¸öµØµã
-	Place* SearchById(int id);// ¸ù¾İIDËÑË÷µØµã£¬¿ÉÒÔÓÃÒ»¸ö¿ìËÙµÄËÑË÷°ì·¨,·µ»ØÖ¸Ïò¸Ã¶ÔÏóµÄÖ¸Õë¡£
-	Place* SearchByName(const std::string& name);// ¸ù¾İÃû³ÆËÑË÷µØµã,·µ»ØÖ¸Ïò¸Ã¶ÔÏóµÄÖ¸Õë¡£
+	List();
+	~List();
+	void AddPlace(const Place& place);// æ·»åŠ ä¸€ä¸ªæ–°çš„åœ°ç‚¹
+	void DeletePlace(int id);// åˆ é™¤ä¸€ä¸ªåœ°ç‚¹
+	Place* SearchById(int id);// æ ¹æ®IDæœç´¢åœ°ç‚¹,è¿”å›æŒ‡å‘è¯¥å¯¹è±¡çš„æŒ‡é’ˆã€‚
+	Place* SearchByName(const std::string& name);// æ ¹æ®åç§°æœç´¢åœ°ç‚¹,è¿”å›æŒ‡å‘è¯¥å¯¹è±¡çš„æŒ‡é’ˆã€‚
 
-	int getNum() { return num; }// »ñÈ¡¾°µãÊıÁ¿
-	LinkedList GetInformation();// »ñÈ¡ËùÓĞµØµãµÄĞÅÏ¢
+	int getNum() { return num; }// è·å–æ™¯ç‚¹æ•°é‡
+	Node* GetHeadNode();// è·å–æ‰€æœ‰åœ°ç‚¹çš„ä¿¡æ¯
 };

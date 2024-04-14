@@ -9,7 +9,7 @@ public:
     std::string name;
     std::string description;
 
-    // Ê¹ÓÃ»ùÀàµÄ¹¹Ôìº¯Êı³õÊ¼»¯»ùÀà³ÉÔ±£¬½öÌí¼ÓĞÂµÄ³ÉÔ±±äÁ¿³õÊ¼»¯
+    // ä½¿ç”¨åŸºç±»çš„æ„é€ å‡½æ•°åˆå§‹åŒ–åŸºç±»æˆå‘˜ï¼Œä»…æ·»åŠ æ–°çš„æˆå‘˜å˜é‡åˆå§‹åŒ–
     Place(int id, std::string name, double x, double y, std::string description)
         : id(id), name(name), x(x), y(y), description(description) {};
     Place(){}

@@ -1,37 +1,70 @@
 #include "List.h"
 
-// �ڹ��캯���ĳ�ʼ���б��г�ʼ����Ա����
-List::List() : num(0), places() {} 
+//构造函数
+List::List() : num(0), head(new Node(Place())), tail(head) {}
 
+//析构函数
+List::~List() {
+	Node* current = head;
+	while (current != nullptr) {
+		Node* temp = current;
+		current = current->next;
+		delete temp;
+	}
+}
 
-//���ӵص�
+//添加地点
 void List::AddPlace(const Place& place) {
-	places.insert(place);
 	num++;
+	Node* newNode = new Node(place);
+	tail->next = newNode;
+	tail = newNode;
 }
 
-//ɾ���ص�
+//删除地点byID
 void List::DeletePlace(int id) {
-	places.remove(id);
-	num--;
+	Node* current = head;
+	while (current->next != nullptr) {
+		if (current->next->place.id == id) {
+			Node* temp = current->next;
+			current->next = temp->next;
+			delete temp;
+			if (temp == tail) { // 如果删除的是尾节点，更新尾指针
+				tail = current;
+			}
+			num--;
+			return;
+		}
+		current = current->next;
+	}
 }
 
-//�����ص�byID
-
+//搜索地点byID
 Place* List::SearchById(int id) {
-	return places.SearchById(id);
+	Node* current = head->next;  // 跳过头节点
+	while (current != nullptr) {
+		if (current->place.id == id) {
+			return &current->place;
+		}
+		current = current->next;
+	}
+	return nullptr;  // 没有找到
 }
 
-//�����ص�byName
+//搜索地点byName
 Place* List::SearchByName(const std::string& name) {
-	return places.SearchByName(name);
-	
+	Node* current = head->next;  // 跳过头节点
+	while (current != nullptr) {
+		if (current->place.name == name) {
+			return &current->place;
+		}
+		current = current->next;
+	}
+	return nullptr;  // 没有找到
 }
 
-//��ȡ����place��Ϣ
-LinkedList List::GetInformation(){
-	return places.GetInformation();
+//获取所有place信息
+Node* List::GetHeadNode() {
+	return head->next; // 直接返回 head->next，无论它是不是 nullptr
 }
-
-
 
