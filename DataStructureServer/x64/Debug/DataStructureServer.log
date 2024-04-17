@@ -8,4 +8,47 @@ C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(252,43)
 C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(253,44): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
 C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(254,18): warning C4244: “初始化”: 从“__int64”转换到“int”，可能丢失数据
 C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(256,10): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
+  List.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\List.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\List.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“List.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Place.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“List.cpp”)
+  
+  main.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\HTTP.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“main.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\List.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“main.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Place.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“main.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“main.cpp”)
+  
+  HTTP.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\HTTP.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“HTTP.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\List.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“HTTP.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Place.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“HTTP.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“HTTP.cpp”)
+  
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\HTTP.cpp(10,60): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\HTTP.cpp(35,61): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\HTTP.cpp(74,81): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  Place.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Place.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“Place.cpp”)
+  
+  Point.cpp
+  正在生成代码...
   DataStructureServer.vcxproj -> C:\Users\86136\Desktop\DataStructureServer\x64\Debug\DataStructureServer.exe
