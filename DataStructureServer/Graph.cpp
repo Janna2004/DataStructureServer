@@ -129,48 +129,96 @@ Point* Graph::SearchById(int id) {
 
 
 std::pair<int, std::vector<Point>> Graph::Navigation(const Point& start, const Point& end) {
-    std::vector<int> dist(num, std::numeric_limits<int>::max());  // 存储起点到每个点的最短距离
-    std::vector<int> prev(num, -1);  // 存储到达每个点的最短路径上该点的前一个点
-    std::vector<bool> visited(num, false);  // 标记每个点是否已经找到了最短路径
+    if (start.id == end.id) {
+        return { 0, {start} };
+    }
 
-    // 使用优先队列优化选择过程
-    auto cmp = [&dist](int left, int right) { return dist[left] > dist[right]; };
-    std::priority_queue<int, std::vector<int>, decltype(cmp)> pq(cmp);
+    std::unordered_map<int, int> distS, distT;
+    std::unordered_map<int, int> prevS, prevT;
+    std::set<int> visitedS, visitedT;
 
-    dist[start.id] = 0;  // 起点到自己的最短距离为0
-    pq.push(start.id);
+    auto cmp = [&](const std::pair<int, int>& left, const std::pair<int, int>& right) {
+        return left.second > right.second;
+        };
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, decltype(cmp)> pqS(cmp), pqT(cmp);
 
-    while (!pq.empty()) {
-        int u = pq.top();  // 选择一个未处理的距离最小的顶点
-        pq.pop();
+    distS[start.id] = 0;
+    distT[end.id] = 0;
+    pqS.emplace(start.id, 0);
+    pqT.emplace(end.id, 0);
 
-        if (visited[u]) continue;  // 如果这个顶点已经处理过，则跳过
-        visited[u] = true;
+    int bestDistance = std::numeric_limits<int>::max();
+    int meetingPoint = -1;
 
-        for (Edge* e = array[u].head; e != nullptr; e = e->next) {
-            int v = e->point->id;
-            int alt = dist[u] + static_cast<int>(e->distance);  // 计算新的距离
-            if (alt < dist[v]) {  // 如果找到了更短的路径，则更新
-                dist[v] = alt;
-                prev[v] = u;
-                pq.push(v);
+    while (!pqS.empty() && !pqT.empty()) {
+        if (pqS.top().second + pqT.top().second >= bestDistance) break;
+
+        if (!pqS.empty()) {
+            int u = pqS.top().first;
+            pqS.pop();
+            visitedS.insert(u);
+            for (Edge* e = array[u].head; e != nullptr; e = e->next) {
+                int v = e->point->id;
+                int alt = distS[u] + static_cast<int>(e->distance);
+                if (distS.find(v) == distS.end() || alt < distS[v]) {
+                    distS[v] = alt;
+                    prevS[v] = u;
+                    pqS.emplace(v, alt);
+                }
+                if (visitedT.find(v) != visitedT.end() && alt + distT[v] < bestDistance) {
+                    bestDistance = alt + distT[v];
+                    meetingPoint = v;
+                }
+            }
+        }
+
+        if (!pqT.empty()) {
+            int u = pqT.top().first;
+            pqT.pop();
+            visitedT.insert(u);
+            for (Edge* e = array[u].head; e != nullptr; e = e->next) {
+                int v = e->point->id;
+                int alt = distT[u] + static_cast<int>(e->distance);
+                if (distT.find(v) == distT.end() || alt < distT[v]) {
+                    distT[v] = alt;
+                    prevT[v] = u;
+                    pqT.emplace(v, alt);
+                }
+                if (visitedS.find(v) != visitedS.end() && alt + distS[v] < bestDistance) {
+                    bestDistance = alt + distS[v];
+                    meetingPoint = v;
+                }
             }
         }
     }
 
-    // 重建路径
+    if (meetingPoint == -1) {
+        return { std::numeric_limits<int>::max(), {} };
+    }
+
     std::vector<Point> path;
-    for (int at = end.id; at != -1; at = prev[at]) {
-        path.push_back(*array[at].point);
+    for (int at = meetingPoint; at != -1; at = prevS[at]) {
+        if (array[at].point != nullptr) {
+            path.push_back(*array[at].point);
+        }
+        else {
+            std::cerr << "Error: Null pointer encountered at index " << at << std::endl;
+        }
     }
-    std::reverse(path.begin(), path.end());  // 翻转路径，因为我们是从终点向起点回溯的
 
-    if (path.size() == 1 && path[0].id != start.id) {  // 如果只有一个点且该点不是起点，则没有路径
-        return { 0, {} };
+    std::reverse(path.begin(), path.end());
+    for (int at = prevT[meetingPoint]; at != -1; at = prevT[at]) {
+        if (array[at].point != nullptr) {
+            path.push_back(*array[at].point);
+        }
+        else {
+            std::cerr << "Error: Null pointer encountered at index " << at << std::endl;
+        }
     }
 
-    return { dist[end.id], path };
+    return { bestDistance, path };
 }
+
 
 std::vector<Point> Graph::SearchByRangePoint(const Point& center, int range) {
     std::vector<Point> pointsWithinRange; // 存储在范围内的点

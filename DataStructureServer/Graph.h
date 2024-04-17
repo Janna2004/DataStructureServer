@@ -6,6 +6,8 @@
 #include <limits>
 #include <cmath>
 #include <memory>
+#include <unordered_map>
+
 
 struct Edge {
     Point* point;
