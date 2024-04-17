@@ -9,23 +9,33 @@
 #include <cmath>     // 用于std::sqrt和std::pow
 
 
+
 Graph::Graph() : num(0), array(nullptr) {
     // 由于初始时图中没有点，num设置为0，array设置为nullptr
 }
 
 Graph::~Graph() {
     if (array != nullptr) {
+        std::unordered_set<Edge*> deletedEdges; // 用来跟踪已删除的边，避免重复删除
+
         for (int i = 0; i < num; ++i) {
             Edge* current = array[i].head;
             while (current != nullptr) {
-                Edge* temp = current;
-                current = current->next;
-                delete temp; // 删除当前边
+                if (deletedEdges.find(current) == deletedEdges.end()) { // 如果当前边尚未删除
+                    deletedEdges.insert(current); // 标记为已删除
+                    Edge* temp = current;
+                    current = current->next;
+                    delete temp; // 删除当前边
+                }
+                else {
+                    current = current->next; // 如果已经删除了，跳过
+                }
             }
         }
         delete[] array; // 删除整个邻接表数组
     }
 }
+
 
 
 void Graph::AddEdge(Point& start, Point& end, double distance) {
@@ -34,9 +44,15 @@ void Graph::AddEdge(Point& start, Point& end, double distance) {
         return;
     }
 
+    // 添加从 start 到 end 的边
     Edge* newEdge = new Edge{ &end, distance, array[start.id].head };
     array[start.id].head = newEdge;
+
+    // 由于是无向图，还需要添加从 end 到 start 的边
+    Edge* reverseEdge = new Edge{ &start, distance, array[end.id].head };
+    array[end.id].head = reverseEdge;
 }
+
 
 void Graph::DeleteEdge(Point& start, Point& end) {
     if (start.id < 0 || start.id >= num || end.id < 0 || end.id >= num) {
@@ -128,96 +144,52 @@ Point* Graph::SearchById(int id) {
 }
 
 
-std::pair<int, std::vector<Point>> Graph::Navigation(const Point& start, const Point& end) {
-    if (start.id == end.id) {
-        return { 0, {start} };
-    }
+std::pair<double, std::vector<Point>> Graph::Navigation(const Point& start, const Point& end) {
+    std::vector<double> dist(num, std::numeric_limits<double>::infinity());
+    std::vector<const Point*> prev(num, nullptr);
+    std::vector<bool> visited(num, false);
 
-    std::unordered_map<int, int> distS, distT;
-    std::unordered_map<int, int> prevS, prevT;
-    std::set<int> visitedS, visitedT;
+    dist[start.id] = 0;
+    std::priority_queue<std::pair<double, int>, std::vector<std::pair<double, int>>, std::greater<>> pq;
+    pq.emplace(0, start.id);
 
-    auto cmp = [&](const std::pair<int, int>& left, const std::pair<int, int>& right) {
-        return left.second > right.second;
-        };
-    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, decltype(cmp)> pqS(cmp), pqT(cmp);
+    while (!pq.empty()) {
+        int current = pq.top().second;
+        pq.pop();
 
-    distS[start.id] = 0;
-    distT[end.id] = 0;
-    pqS.emplace(start.id, 0);
-    pqT.emplace(end.id, 0);
+        if (visited[current]) continue; // 避免重复处理节点
+        visited[current] = true;
 
-    int bestDistance = std::numeric_limits<int>::max();
-    int meetingPoint = -1;
-
-    while (!pqS.empty() && !pqT.empty()) {
-        if (pqS.top().second + pqT.top().second >= bestDistance) break;
-
-        if (!pqS.empty()) {
-            int u = pqS.top().first;
-            pqS.pop();
-            visitedS.insert(u);
-            for (Edge* e = array[u].head; e != nullptr; e = e->next) {
-                int v = e->point->id;
-                int alt = distS[u] + static_cast<int>(e->distance);
-                if (distS.find(v) == distS.end() || alt < distS[v]) {
-                    distS[v] = alt;
-                    prevS[v] = u;
-                    pqS.emplace(v, alt);
-                }
-                if (visitedT.find(v) != visitedT.end() && alt + distT[v] < bestDistance) {
-                    bestDistance = alt + distT[v];
-                    meetingPoint = v;
-                }
-            }
+        if (current == end.id) {
+            break; // 如果达到终点，提前退出
         }
 
-        if (!pqT.empty()) {
-            int u = pqT.top().first;
-            pqT.pop();
-            visitedT.insert(u);
-            for (Edge* e = array[u].head; e != nullptr; e = e->next) {
-                int v = e->point->id;
-                int alt = distT[u] + static_cast<int>(e->distance);
-                if (distT.find(v) == distT.end() || alt < distT[v]) {
-                    distT[v] = alt;
-                    prevT[v] = u;
-                    pqT.emplace(v, alt);
-                }
-                if (visitedS.find(v) != visitedS.end() && alt + distS[v] < bestDistance) {
-                    bestDistance = alt + distS[v];
-                    meetingPoint = v;
-                }
+        for (Edge* e = array[current].head; e != nullptr; e = e->next) {
+            int neighbor = e->point->id;
+            double weight = e->distance;
+            if (dist[current] + weight < dist[neighbor]) {
+                dist[neighbor] = dist[current] + weight;
+                prev[neighbor] = array[current].point;
+                pq.emplace(dist[neighbor], neighbor);
             }
         }
     }
 
-    if (meetingPoint == -1) {
-        return { std::numeric_limits<int>::max(), {} };
-    }
-
+    // 构建路径
     std::vector<Point> path;
-    for (int at = meetingPoint; at != -1; at = prevS[at]) {
-        if (array[at].point != nullptr) {
-            path.push_back(*array[at].point);
-        }
-        else {
-            std::cerr << "Error: Null pointer encountered at index " << at << std::endl;
-        }
+    if (dist[end.id] == std::numeric_limits<double>::infinity()) {
+        return std::make_pair(-1, std::vector<Point>());  // 无法到达终点
     }
 
+    for (const Point* at = &end; at != nullptr; at = prev[at->id]) {
+        path.push_back(*at);
+        if (at->id == start.id) break;
+    }
     std::reverse(path.begin(), path.end());
-    for (int at = prevT[meetingPoint]; at != -1; at = prevT[at]) {
-        if (array[at].point != nullptr) {
-            path.push_back(*array[at].point);
-        }
-        else {
-            std::cerr << "Error: Null pointer encountered at index " << at << std::endl;
-        }
-    }
 
-    return { bestDistance, path };
+    return std::make_pair(dist[end.id], path);
 }
+
 
 
 std::vector<Point> Graph::SearchByRangePoint(const Point& center, int range) {
@@ -267,36 +239,30 @@ void Graph::SortByDistance(std::vector<Point>& points) {
         });
 }
 
-std::pair<int, std::vector<Point>> Graph::TSP(const Point& start){
-    // 首先，创建一个只包含景点的列表
+std::pair<double, std::vector<Point>> Graph::TSP(const Point& start) {
     std::vector<int> places;
-    int placeNum = 0;
     for (int i = 0; i < this->GetNum(); i++) {
         Point* p = this->SearchById(i);
         if (p && p->placeId != -1) {
             places.push_back(i);
-            placeNum++;
         }
     }
-    // 初始化动态规划表
+    int placeNum = places.size();
     const int inf = std::numeric_limits<int>::max();
-    std::vector<std::vector<int>> dp(1 << placeNum, std::vector<int>(placeNum, inf));
+    std::vector<std::vector<double>> dp(1 << placeNum, std::vector<double>(placeNum, inf));
     std::vector<std::vector<int>> parent(1 << placeNum, std::vector<int>(placeNum, -1));
     int startIdx = std::find(places.begin(), places.end(), start.id) - places.begin();
 
-    // 初始状态
     dp[1 << startIdx][startIdx] = 0;
 
-    // 填充表
-    int distance = 0;
-    for (int mask = 0; mask < (1 << placeNum); mask++) {
+    for (int mask = 1; mask < (1 << placeNum); mask++) {
         for (int i = 0; i < placeNum; i++) {
             if (mask & (1 << i)) {
                 for (int j = 0; j < placeNum; j++) {
                     if (!(mask & (1 << j))) {
                         int nextMask = mask | (1 << j);
-                        distance = Navigation(*SearchById(places[i]), *SearchById(places[j])).first;
-                        int cost = dp[mask][i] + distance;
+                        double distance = Navigation(*SearchById(places[i]), *SearchById(places[j])).first;
+                        double cost = dp[mask][i] + distance;
                         if (cost < dp[nextMask][j]) {
                             dp[nextMask][j] = cost;
                             parent[nextMask][j] = i;
@@ -307,35 +273,41 @@ std::pair<int, std::vector<Point>> Graph::TSP(const Point& start){
         }
     }
 
-    // 寻找最小的回路
-    int finalMask = (1 << placeNum) - 1;
-    int minCost = inf, lastIndex = -1;
+    double minCost = inf;
+    int lastIndex = -1;
     for (int i = 0; i < placeNum; i++) {
-        distance = Navigation(*SearchById(places[i]), start).first;
-        int cost = dp[finalMask][i] + distance;
+        double distance = Navigation(*SearchById(places[i]), start).first;
+        double cost = dp[(1 << placeNum) - 1][i] + distance;
         if (cost < minCost) {
             minCost = cost;
             lastIndex = i;
         }
     }
 
-    // 构建路径
     std::vector<Point> path;
-    for (int mask = finalMask, index = lastIndex; index != -1; ) {
-        path.push_back(*SearchById(places[index]));
-        int pIndex = parent[mask][index];
-        mask &= ~(1 << index);
-        index = pIndex;
+    int mask = (1 << placeNum) - 1;
+    while (lastIndex != -1) {
+        int pIndex = parent[mask][lastIndex];
+        if (pIndex != -1) {
+            std::vector<Point> segment = Navigation(*SearchById(places[pIndex]), *SearchById(places[lastIndex])).second;
+            std::reverse(segment.begin(), segment.end());
+            // 根据需求，我们需要从返回的路径segment中去掉第一个点，因为它是上一段的终点
+            if (segment.size() > 1) {
+                path.insert(path.end(), segment.begin() + 1, segment.end());
+            }
+        }
+        mask ^= (1 << lastIndex);
+        lastIndex = pIndex;
     }
     std::reverse(path.begin(), path.end());
-
-    std::cout << "Path reconstruction:" << std::endl;
-    for (const auto& p : path) {
-        std::cout << "ID: " << p.id << " Coords: (" << p.x << ", " << p.y << ")" << std::endl;
+    // 添加从最后一个点回到起始点的路径
+    std::vector<Point> lastSegment = Navigation(path.back(), start).second;
+    if (lastSegment.size() > 1) {
+        path.insert(path.end(), lastSegment.begin() + 1, lastSegment.end());
     }
-
     return { minCost, path };
 }
+
 
 //void Graph::SortByDistance(std::vector<Point>& points) {
 //    // 计算所有点的平均坐标，用作参考点

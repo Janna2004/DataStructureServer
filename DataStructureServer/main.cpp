@@ -68,7 +68,6 @@ int main(void) {
     list.AddPlace(Place(17, "开光室", 116.416914, 39.947906, "The consecration room is a good place, and it has many advantages"));
 
     // http服务启动
-    /*
     Server svr;
     svr.Post(R"(/(searchNearByPoint|navigate))", [](const Request& req, Response& res) {
         std::promise<json> prom;
@@ -89,12 +88,6 @@ int main(void) {
         });
 
     std::cout << "Server is listening on port 8080..." << std::endl;
-    svr.listen("localhost", 8080); //本地测试：访问http://127.0.0.1:8080/
-    */
-    int startId = 7;
-    int endId = 8;
-    Point* startPoint = graph.SearchById(startId);
-    Point* endPoint = graph.SearchById(endId);
-    auto result = graph.Navigation(*startPoint, *endPoint);
+    svr.listen("localhost", 8080); //本地测试：访问http://127.0.0.1:8080/;
     return 0;
 }

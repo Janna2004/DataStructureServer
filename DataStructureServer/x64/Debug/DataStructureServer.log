@@ -1,14 +1,11 @@
-﻿  main.cpp
-C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\HTTP.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“main.cpp”)
-  
-C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\List.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“main.cpp”)
-  
-C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Place.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“main.cpp”)
-  
+﻿  Graph.cpp
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-  (编译源文件“main.cpp”)
+  (编译源文件“Graph.cpp”)
   
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(250,18): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(252,43): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(253,44): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(254,18): warning C4244: “初始化”: 从“__int64”转换到“int”，可能丢失数据
+C:\Users\86136\Desktop\DataStructureServer\DataStructureServer\Graph.cpp(256,10): warning C4334: “<<”: 32 位移位的结果被隐式转换为 64 位(是否希望进行 64 位移位?)
   DataStructureServer.vcxproj -> C:\Users\86136\Desktop\DataStructureServer\x64\Debug\DataStructureServer.exe

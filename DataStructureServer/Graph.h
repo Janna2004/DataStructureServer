@@ -7,6 +7,7 @@
 #include <cmath>
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 
 
 struct Edge {
@@ -31,11 +32,11 @@ public:
     void DeletePoint(const Point& a);
     Point* SearchById(int id);// 根据ID搜索地点,返回指向该对象的指针。
 
-    std::pair<int, std::vector<Point>> Navigation(const Point& start, const Point& end);// 导航：Dijkstra算法。pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）
+    std::pair<double, std::vector<Point>> Navigation(const Point& start, const Point& end);// 导航：Dijkstra算法。pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）
     std::vector<Point> SearchByRangePoint(const Point& center, int range);// 按搜索所有以center为中心，走路距离在range范围内的景点（不排序）（使用place判断是否是景点）
     std::vector<Point> SearchByRangeAny(double x,double y, int range);// 按搜索所有以center为中心，走路距离在range范围内的景点（不排序）（使用place判断是否是景点）
     void SortByDistance(std::vector<Point>& reference);// 排序算法：景点按距离排序。因为传入的是引用，所以不需要额外返回
-    std::pair<int, std::vector<Point>> TSP(const Point& start); // 旅行商问题：从start出发，经过所有景点，再回到start的最短路径.pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）
+    std::pair<double, std::vector<Point>> TSP(const Point& start); // 旅行商问题：从start出发，经过所有景点，再回到start的最短路径.pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）
 
     int GetNum() const { return num; }// 获取点的数量
     std::vector<Point> GetInformationByDeepth();// 获取所有点的信息,深度优先遍历

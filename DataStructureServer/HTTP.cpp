@@ -219,6 +219,7 @@ void handleRequest(const httplib::Request& req, std::promise<json> prom) {
                     nlohmann::json p;
                     p["x"] = pt.x;
                     p["y"] = pt.y;
+                    p["id"] = pt.id;
                     pathArray.push_back(p);
                 }
                 nlohmann::json data;
