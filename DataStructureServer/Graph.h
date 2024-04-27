@@ -8,6 +8,15 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <stack>
+#include <utility> // 对于std::pair
+#include <limits>  // 对于std::numeric_limits
+#include <algorithm> // 用于std::sort
+#include <cmath>     // 用于std::sqrt和std::pow
+
 
 
 struct Edge {
@@ -17,23 +26,23 @@ struct Edge {
 };
 struct AdjList {
     Point* point;
-    Edge* head; // 指向第一个Edge的指针
+    Edge* head; //指向第一个Edge的指针
 };
 class Graph {
 private:
-    int num; // 点的数量
-    AdjList* array; // 邻接表数组，图的存储。
+    int num; //点的数量
+    AdjList* array; //邻接表数组，图的存储。
 public:
-    Graph();// 构造函数
-    ~Graph();// 析构函数，用于释放内存
+    Graph();//构造函数
+    ~Graph();//释放内存
     void AddEdge(Point& start, Point& end, double distance = -1);
     void DeleteEdge(Point& start, Point& end);
     void AddPoint(const Point& a);
     void DeletePoint(const Point& a);
-    Point* SearchById(int id);// 根据ID搜索地点,返回指向该对象的指针。
+    Point* SearchById(int id);//根据ID搜索地点,返回指向该对象的指针。
 
-    std::pair<double, std::vector<Point>> Navigation(const Point& start, const Point& end);// 导航：Dijkstra算法。pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）
-    std::vector<Point> SearchByRangePoint(const Point& center, int range);// 按搜索所有以center为中心，走路距离在range范围内的景点（不排序）（使用place判断是否是景点）
+    std::pair<double, std::vector<Point>> Navigation(const Point& start, const Point& end);//导航：Dijkstra算法。pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）
+    std::vector<Point> SearchByRangePoint(const Point& center, int range);//按搜索所有以center为中心，走路距离在range范围内的景点（不排序）（使用place判断是否是景点）
     std::vector<Point> SearchByRangeAny(double x,double y, int range);// 按搜索所有以center为中心，走路距离在range范围内的景点（不排序）（使用place判断是否是景点）
     void SortByDistance(std::vector<Point>& reference);// 排序算法：景点按距离排序。因为传入的是引用，所以不需要额外返回
     std::pair<double, std::vector<Point>> TSP(const Point& start); // 旅行商问题：从start出发，经过所有景点，再回到start的最短路径.pair的第一个是最短距离，第二个是路径上所有的点的对象（按走过的顺序）

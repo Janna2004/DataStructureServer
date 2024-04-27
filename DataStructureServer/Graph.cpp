@@ -1,14 +1,4 @@
 #include "Graph.h"
-#include <iostream>
-#include <cstdlib>
-#include <vector>
-#include <stack>
-#include <utility> // 对于std::pair
-#include <limits>  // 对于std::numeric_limits
-#include <algorithm> // 用于std::sort
-#include <cmath>     // 用于std::sqrt和std::pow
-
-
 
 Graph::Graph() : num(0), array(nullptr) {
     // 由于初始时图中没有点，num设置为0，array设置为nullptr
@@ -308,28 +298,6 @@ std::pair<double, std::vector<Point>> Graph::TSP(const Point& start) {
     return { minCost, path };
 }
 
-
-//void Graph::SortByDistance(std::vector<Point>& points) {
-//    // 计算所有点的平均坐标，用作参考点
-//    double sumX = 0, sumY = 0;
-//    int count = 0;
-//    for (const auto& pt : points) {
-//        sumX += pt.x;
-//        sumY += pt.y;
-//        count++;
-//    }
-//    Point referencePoint = Point(-1, sumX / count, sumY / count); // 创建几何中心参考点
-//
-//    // 定义比较函数，用于比较两个点与参考点的距离
-//    auto compareByDistance = [&referencePoint](const Point& a, const Point& b) -> bool {
-//        double distA = std::sqrt(std::pow(a.x - referencePoint.x, 2) + std::pow(a.y - referencePoint.y, 2));
-//        double distB = std::sqrt(std::pow(b.x - referencePoint.x, 2) + std::pow(b.y - referencePoint.y, 2));
-//        return distA < distB; // 按距离升序排序
-//    };
-//
-//    // 使用std::sort和比较函数对points进行排序
-//    std::sort(points.begin(), points.end(), compareByDistance);
-//}
 
 std::vector<Point> Graph::GetInformationByDeepth() {
     std::vector<Point> result; // 用于存储遍历结果
